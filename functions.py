@@ -1,11 +1,9 @@
 import pandas as pd
 import os
 
-# a. Verify user by IC length and password match
 def verify_user(ic_number, password):
     return len(ic_number) == 12 and password == ic_number[-4:]
 
-# b. Malaysian income tax calculation based on chargeable income
 def calculate_tax(income, tax_relief):
     chargeable_income = max(0, income - tax_relief)
 
@@ -26,7 +24,6 @@ def calculate_tax(income, tax_relief):
 
     return round(tax, 2)
 
-# c. Save to CSV file
 def save_to_csv(data, filename):
     columns = ['IC Number', 'Income', 'Tax Relief', 'Tax Payable']
     df = pd.DataFrame([data], columns=columns)
@@ -36,13 +33,11 @@ def save_to_csv(data, filename):
     else:
         df.to_csv(filename, mode='w', index=False, header=True)
 
-# d. Read tax records from CSV
 def read_from_csv(filename):
     if os.path.exists(filename):
         return pd.read_csv(filename, dtype={'IC Number': str})
     return None
 
-# e. Ask user for all applicable tax reliefs
 def gather_tax_reliefs():
     print("\n--- Tax Relief Categories ---")
 
