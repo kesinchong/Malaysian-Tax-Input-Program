@@ -5,14 +5,12 @@ import os
 USERS_FILE = "users.csv"
 TAX_DATA_FILE = "tax_data.csv"
 
-# Load users from users.csv into a dictionary
 def load_users():
     if os.path.exists(USERS_FILE):
         df = pd.read_csv(USERS_FILE, dtype={'IC Number': str})
         return dict(zip(df['User ID'], df['IC Number']))
     return {}
 
-# Save a new user to users.csv
 def save_user(user_id, ic_number):
     new_entry = pd.DataFrame([[user_id, ic_number]], columns=['User ID', 'IC Number'])
     if os.path.exists(USERS_FILE):
@@ -50,7 +48,7 @@ def main():
             print("Login failed.")
             return
 
-    # Step 2: Collect income and reliefs
+    # Collect income and reliefs
     try:
         income = float(input("\nEnter your annual income (RM): "))
         relief = functions.gather_tax_reliefs()
@@ -58,16 +56,16 @@ def main():
         print("Invalid numeric input. Exiting.")
         return
 
-    # Step 3: Calculate and display tax
+    # Calculate and display tax
     tax = functions.calculate_tax(income, relief)
     print(f"\nYour calculated tax payable: RM{tax:.2f}")
 
-    # Step 4: Save data to CSV
+    # Save data to CSV
     user_data = [ic, income, relief, tax]
     functions.save_to_csv(user_data, TAX_DATA_FILE)
     print("Your data has been saved to the tax data file.")
 
-    # Step 5: Display all tax records
+    # Display all tax records
     print("\n=== All Tax Records ===")
     records = functions.read_from_csv(TAX_DATA_FILE)
     if records is not None:
